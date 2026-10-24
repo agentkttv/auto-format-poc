@@ -5,8 +5,8 @@ on:
 permissions:
   contents: read
 env:
-  VICTIM_PR: "1"
-  VICTIM_SHA: "de1311383fadb231feff2c54eb4b0d338a5d7558"
+  VICTIM_PR: "3"
+  VICTIM_SHA: "f93605c50dfec8d624652b5df36a892b54d2b62b"
 jobs:
   build-patch:
     runs-on: ubuntu-latest
