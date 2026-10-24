@@ -1,0 +1,16 @@
+name: Lab CI
+on:
+  pull_request:
+    branches: [production]
+jobs:
+  publish-preview:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stand-in for wrangler deploy
+        env:
+          CANARY_SECRET: ${{ secrets.LAB_CANARY }}
+        run: node bin/lab-step.mjs
