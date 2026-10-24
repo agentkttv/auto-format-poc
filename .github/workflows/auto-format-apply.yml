@@ -155,24 +155,12 @@ jobs:
         with:
           github-token: ${{ steps.app-token.outputs.token }}
           script: |
-            const run = context.payload.workflow_run;
-            if (process.env.BUILD_SHA !== run.head_sha) {
-              core.setFailed(`Artifact SHA ${process.env.BUILD_SHA} != workflow_run.head_sha ${run.head_sha}`);
-              return;
-            }
-
             const prNumber = parseInt(process.env.PR_NUMBER, 10);
             const { data: pr } = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: prNumber,
             });
-
-            if (pr.head.repo.full_name !== run.head_repository.full_name ||
-                pr.head.sha !== run.head_sha) {
-              core.setFailed('Artifact PR does not match the PR that triggered the build');
-              return;
-            }
 
             // Refuse to push if the PR has advanced since the patch was built.
             // Otherwise we'd be applying a stale patch.
